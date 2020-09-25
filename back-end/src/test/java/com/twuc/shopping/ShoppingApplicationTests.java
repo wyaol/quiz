@@ -1,9 +1,14 @@
 package com.twuc.shopping;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twuc.shopping.dto.GoodDto;
+import com.twuc.shopping.dto.OrderDto;
 import com.twuc.shopping.entity.GoodEntity;
+import com.twuc.shopping.entity.OrderEntity;
 import com.twuc.shopping.repository.GoodRepository;
+import com.twuc.shopping.repository.OrderRepository;
+import com.twuc.shopping.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,6 +35,9 @@ class ShoppingApplicationTests {
 
 	@Autowired
 	GoodRepository goodRepository;
+
+	@Autowired
+	OrderRepository orderRepository;
 
 	@Test
 	void contextLoads() {
@@ -50,6 +60,13 @@ class ShoppingApplicationTests {
 		mockMvc.perform(get("/goods"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(1)));
+	}
+
+	@Test
+	void shouldAddOrderByService() throws Exception {
+		OrderEntity orderEntity = new OrderEntity(1, 1);
+
+		orderRepository.save(orderEntity);
 	}
 
 }

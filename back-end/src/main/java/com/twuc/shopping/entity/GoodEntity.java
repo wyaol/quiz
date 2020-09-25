@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "good")
+@Table(name = "goods")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
