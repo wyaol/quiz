@@ -18,7 +18,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-
+import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,6 +38,9 @@ class ShoppingApplicationTests {
 
 	@Autowired
 	OrderRepository orderRepository;
+
+	@Autowired
+	OrderService orderService;
 
 	@Test
 	void contextLoads() {
@@ -65,8 +68,16 @@ class ShoppingApplicationTests {
 	@Test
 	void shouldAddOrderByService() throws Exception {
 		OrderEntity orderEntity = new OrderEntity(1, 1);
-
 		orderRepository.save(orderEntity);
+	}
+
+	@Test
+	void shouldGetOrders() throws Exception {
+		OrderEntity orderEntity = new OrderEntity(1, 100);
+		orderRepository.save(orderEntity);
+
+		mockMvc.perform(get("/orders"))
+				.andExpect(status().isOk());
 	}
 
 }
