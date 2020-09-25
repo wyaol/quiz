@@ -21,7 +21,7 @@ class Header extends Component {
           <Link to="/goods">商城</Link>
         </Menu.Item>
         <Menu.Item key="order" icon={<MailOutlined />}>
-          订单
+        <Link to="/orders">订单</Link>
         </Menu.Item>
         <Menu.Item key="goodsAdd" icon={<MailOutlined />}>
           <Link to="/goods/add">添加商品</Link>

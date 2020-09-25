@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import './index.css';
+import Header from '../Herder';
 
 
 class GoodsList extends Component {
@@ -17,6 +18,14 @@ class GoodsList extends Component {
     });
   }
 
+  addOrder = (id) => {
+    const formData = new FormData();
+    formData.append('goodId', id);
+    axios.post("http://localhost:8080/orders", formData).then(res => {
+      if (res.status === 201) alert('添加订单成功');
+    })
+  }
+
   render() {
     return (
       <div>
@@ -25,7 +34,7 @@ class GoodsList extends Component {
             <img src={good.imgUrl} alt=""/>
             <span>{good.name}</span>
             <span>单价{good.price}元/{good.unit}</span>
-            <div>+</div>
+            <button onClick={() => this.addOrder(good.id)}>+</button>
           </div>
         ))}
       </div>
