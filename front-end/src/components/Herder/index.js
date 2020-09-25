@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Menu } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
+import {Link} from 'react-router-dom';
 
 
 class Header extends Component {
@@ -23,7 +24,7 @@ class Header extends Component {
           订单
         </Menu.Item>
         <Menu.Item key="goodsAdd" icon={<MailOutlined />}>
-          添加商品
+          <Link to="/goods/add">添加商品</Link>
         </Menu.Item>
       </Menu>
     );
