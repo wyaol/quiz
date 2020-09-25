@@ -6,6 +6,8 @@ import com.twuc.shopping.repository.GoodRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class GoodService {
@@ -22,7 +24,17 @@ public class GoodService {
                 .build();
     }
 
+    private GoodDto goodEntityToGoodDto(GoodEntity goodEntity) {
+        return new GoodDto(goodEntity.getName(), goodEntity.getPrice(), goodEntity.getUnit(), goodEntity.getImgUrl());
+    }
+
     public void addGood(GoodDto goodDto) {
         goodRepository.save(goodDtoToGoodEntity(goodDto));
+    }
+
+    public List<GoodDto> getGoods() {
+         List<GoodDto> goodDtos = new ArrayList<>();
+         goodRepository.findAll().forEach(goodEntity -> goodDtos.add(goodEntityToGoodDto(goodEntity)));
+         return goodDtos;
     }
 }
