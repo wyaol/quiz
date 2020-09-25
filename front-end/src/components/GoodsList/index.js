@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import './index.css';
-import Header from '../Herder';
 
 
 class GoodsList extends Component {
