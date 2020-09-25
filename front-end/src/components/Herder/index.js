@@ -18,7 +18,7 @@ class Header extends Component {
     return (
       <Menu onClick={this.handleClick} selectedKeys={[current]} mode="horizontal">
         <Menu.Item key="store" icon={<MailOutlined />}>
-          商城
+          <Link to="/goods">商城</Link>
         </Menu.Item>
         <Menu.Item key="order" icon={<MailOutlined />}>
           订单
