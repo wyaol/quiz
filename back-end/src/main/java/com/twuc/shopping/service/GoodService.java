@@ -25,7 +25,7 @@ public class GoodService {
     }
 
     private GoodDto goodEntityToGoodDto(GoodEntity goodEntity) {
-        return new GoodDto(goodEntity.getName(), goodEntity.getPrice(), goodEntity.getUnit(), goodEntity.getImgUrl());
+        return new GoodDto(goodEntity.getId(), goodEntity.getName(), goodEntity.getPrice(), goodEntity.getUnit(), goodEntity.getImgUrl());
     }
 
     public void addGood(GoodDto goodDto) {
