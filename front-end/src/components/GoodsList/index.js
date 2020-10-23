@@ -7,6 +7,12 @@ import './index.css';
 class GoodsList extends Component {
   state = {
     goods: [],
+    goodsBuys: [{
+      key: '1',
+      goodsId: 1,
+      goodsName: 'John Brown',
+      goodsNum: 32
+    }]
   };
 
   componentDidMount() {
@@ -18,27 +24,47 @@ class GoodsList extends Component {
     });
   }
 
-  addOrder = (id) => {
-    const formData = new FormData();
-    formData.append('goodId', id);
-    axios.post("http://localhost:8080/orders", formData).then(res => {
+  addOrder = () => {
+    axios.post("http://localhost:8080/orders", {'order': this.state.goodsBuys}).then(res => {
       if (res.status === 201) alert('添加订单成功');
     })
+  }
+
+  addGoods = (goods) => {
+    const goodsBuys = this.state.goodsBuys;
+    let tag = false;
+    goodsBuys.map((goodsBuy) => {
+      if (goodsBuy.goodsId === goods.id) {
+        goodsBuy.goodsNum +=1;
+        tag = true;
+      }
+      return goodsBuy;
+    });
+    if (tag === false) goodsBuys.push({
+        key: goodsBuys.length.toString(),
+        goodsId: goods.id,
+        goodsName: goods.name,
+        goodsNum: 1,
+    });
+    this.setState({
+      goodsBuys
+    });
+    console.log(this.state.goodsBuys);
   }
 
   render() {
     const columns = [
       {
         title: '商品',
-        dataIndex: 'goods',
-        key: 'goods',
+        dataIndex: 'goodsName',
+        key: 'goodsName',
         render: text => <a>{text}</a>,
       },
       {
         title: '数量',
-        dataIndex: 'number',
-        key: 'number',
-        render: number => <InputNumber min={1} max={10} defaultValue={1} />
+        dataIndex: 'goodsNum',
+        key: 'goodsNum',
+        render: number => <InputNumber value={number} />
       },
       {
         title: 'Action',
@@ -50,19 +76,11 @@ class GoodsList extends Component {
         ),
       },
     ];
-    
-    const data = [
-      {
-        key: '1',
-        goods: 'John Brown',
-        number: 32,
-      }
-    ];
 
     const content = (
       <div>
-        <Table columns={columns} dataSource={data} />
-        <button>立即下单</button>
+        <Table columns={columns} dataSource={this.state.goodsBuys} />
+        <button onClick={() => this.addOrder()}>立即下单</button>
         <button>清空</button>
       </div>
     );
@@ -74,12 +92,12 @@ class GoodsList extends Component {
             <img src={good.imgUrl} alt=""/>
             <span>{good.name}</span>
             <span>单价{good.price}元/{good.unit}</span>
-            <button onClick={() => this.addOrder(good.id)}>+</button>
+            <button onClick={() => this.addGoods(good)}>+</button>
           </div>
         ))}
 
-        <Popover content={content} title="Title">
-          <Button type="primary">Hover me</Button>
+        <Popover content={content}>
+          <Button type="primary">购物车</Button>
         </Popover>
       </div>
     );
