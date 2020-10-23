@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -19,7 +20,8 @@ public class OrderController {
     OrderService orderService;
 
     @PostMapping("/orders")
-    public ResponseEntity addOrder(OrderDto orderDto) {
+    public ResponseEntity addOrder(@RequestBody OrderDto orderDto) {
+        System.out.println(orderDto);
         orderService.addOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).header("Accept", "application/x-www-form-urlencode").build();
     }

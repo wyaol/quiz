@@ -21,7 +21,7 @@ public class OrderService {
 
     private List<OrderEntity> orderDtoToOrderEntity(OrderDto orderDto) {
         List<OrderEntity> orderEntities = new ArrayList<>();
-        orderDto.getGoodsBuyDtos().forEach(goodsBuyDto -> orderEntities.add(OrderEntity.builder()
+        orderDto.getOrder().forEach(goodsBuyDto -> orderEntities.add(OrderEntity.builder()
                 .goodId(goodsBuyDto.getGoodsId())
                 .goodNum(goodsBuyDto.getGoodsNum())
                 .build()
