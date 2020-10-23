@@ -65,4 +65,8 @@ public class OrderService {
 
         return goodOrderDtos;
     }
+
+    public void delOrder(Integer orderId) {
+        orderRepository.deleteAllByOrderId(orderId);
+    }
 }

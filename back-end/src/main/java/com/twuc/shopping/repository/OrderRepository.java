@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface OrderRepository extends CrudRepository<OrderEntity, Integer> {
     List<OrderEntity> findAll();
+    void deleteAllByOrderId(Integer orderId);
 }

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -84,6 +85,12 @@ class ShoppingApplicationTests {
 		String json = objectMapper.writeValueAsString(orderDto);
 		System.out.println(json);
 		mockMvc.perform(post("/orders").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+	}
+
+	@Test
+	void shouldDeleteOrder() throws Exception {
+		shouldAddGood();
+		mockMvc.perform(delete("/orders").content("{\"orderId\": 1}").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
 	}
 
 	@Test
