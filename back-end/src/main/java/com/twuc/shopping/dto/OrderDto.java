@@ -10,5 +10,6 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @Data
 public class OrderDto {
+    private Integer orderId;
     private ArrayList<GoodsBuyDto> order;
 }

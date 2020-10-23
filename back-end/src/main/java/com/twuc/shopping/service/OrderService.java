@@ -10,6 +10,7 @@ import com.twuc.shopping.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.Instant;
 import java.util.*;
 
 @Service
@@ -25,6 +26,7 @@ public class OrderService {
         orderDto.getOrder().forEach(goodsBuyDto -> orderEntities.add(OrderEntity.builder()
                 .goodId(goodsBuyDto.getGoodsId())
                 .goodNum(goodsBuyDto.getGoodsNum())
+                .orderId((int) System.currentTimeMillis())
                 .build()
         ));
         return orderEntities;
@@ -39,10 +41,10 @@ public class OrderService {
 
         Map<Integer, List<OrderEntity>> goodOrders = new HashMap<>(); // key 为orderId
         orderEntities.forEach(orderEntity -> {
-            if (goodOrders.containsKey(orderEntity.getId())) {
-                goodOrders.get(orderEntity.getId()).add(orderEntity);
+            if (goodOrders.containsKey(orderEntity.getOrderId())) {
+                goodOrders.get(orderEntity.getOrderId()).add(orderEntity);
             } else {
-                goodOrders.put(orderEntity.getId(), new ArrayList<>(Collections.singletonList(orderEntity)));
+                goodOrders.put(orderEntity.getOrderId(), new ArrayList<>(Collections.singletonList(orderEntity)));
             }
         });
 

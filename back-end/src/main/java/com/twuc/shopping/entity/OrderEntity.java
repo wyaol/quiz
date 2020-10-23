@@ -21,6 +21,7 @@ public class OrderEntity {
     @GeneratedValue
     private Integer id;
 
+    private Integer orderId;
     private Integer goodId;
     private Integer goodNum;
 }

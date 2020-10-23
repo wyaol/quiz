@@ -79,7 +79,7 @@ class ShoppingApplicationTests {
 
 		ArrayList<GoodsBuyDto> goodsBuyDtos = new ArrayList<>();
 		goodsBuyDtos.add(new GoodsBuyDto(goodId, 1));
-		OrderDto orderDto = new OrderDto(goodsBuyDtos);
+		OrderDto orderDto = new OrderDto(1, goodsBuyDtos);
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(orderDto);
 		System.out.println(json);
@@ -88,13 +88,13 @@ class ShoppingApplicationTests {
 
 	@Test
 	void shouldAddOrderByService() throws Exception {
-		OrderEntity orderEntity = new OrderEntity(1, 1, 1);
+		OrderEntity orderEntity = new OrderEntity(1, 1, 1, 1);
 		orderRepository.save(orderEntity);
 	}
 
 	@Test
 	void shouldGetOrders() throws Exception {
-		OrderEntity orderEntity = new OrderEntity(1, 1, 1);
+		OrderEntity orderEntity = new OrderEntity(1, 1, 1, 1);
 		orderRepository.save(orderEntity);
 
 		mockMvc.perform(get("/orders"))
