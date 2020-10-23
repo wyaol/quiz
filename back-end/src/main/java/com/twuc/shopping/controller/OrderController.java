@@ -21,7 +21,6 @@ public class OrderController {
 
     @PostMapping("/orders")
     public ResponseEntity addOrder(@RequestBody OrderDto orderDto) {
-        System.out.println(orderDto);
         orderService.addOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).header("Accept", "application/x-www-form-urlencode").build();
     }

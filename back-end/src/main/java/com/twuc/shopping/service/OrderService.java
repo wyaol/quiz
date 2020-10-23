@@ -1,6 +1,7 @@
 package com.twuc.shopping.service;
 
 import com.twuc.shopping.dto.GoodOrderDto;
+import com.twuc.shopping.dto.GoodsOrderItemDto;
 import com.twuc.shopping.dto.OrderDto;
 import com.twuc.shopping.entity.GoodEntity;
 import com.twuc.shopping.entity.OrderEntity;
@@ -35,23 +36,29 @@ public class OrderService {
 
     public List<GoodOrderDto> getOrders() {
         List<OrderEntity> orderEntities = orderRepository.findAll();
-        Map<Integer, Integer> goodOrders = new HashMap<>();
+
+        Map<Integer, List<OrderEntity>> goodOrders = new HashMap<>(); // key 为orderId
         orderEntities.forEach(orderEntity -> {
-            if (goodOrders.containsKey(orderEntity.getGoodId())) {
-                goodOrders.put(orderEntity.getGoodId(), goodOrders.get(orderEntity.getGoodId()) + 1);
+            if (goodOrders.containsKey(orderEntity.getId())) {
+                goodOrders.get(orderEntity.getId()).add(orderEntity);
             } else {
-                goodOrders.put(orderEntity.getGoodId(), 1);
+                goodOrders.put(orderEntity.getId(), new ArrayList<>(Collections.singletonList(orderEntity)));
             }
         });
 
         List<GoodOrderDto> goodOrderDtos = new ArrayList<>();
 
         goodOrders.keySet().forEach(key -> {
-            Optional<GoodEntity> res = goodRepository.findById(key);
-            if (res.isPresent()) {
-                GoodEntity goodEntity = res.get();
-                goodOrderDtos.add(new GoodOrderDto(goodEntity.getName(), goodEntity.getPrice(), goodEntity.getUnit(), goodOrders.get(key)));
-            }
+            List<OrderEntity> orderEntities1 = goodOrders.get(key);
+            List<GoodsOrderItemDto> goodOrderItems = new ArrayList<>();
+            orderEntities1.forEach(orderEntity -> {
+                Optional<GoodEntity> goodEntityOptional = goodRepository.findById(orderEntity.getGoodId());
+                if (goodEntityOptional.isPresent()) {
+                    GoodEntity goodEntity = goodEntityOptional.get();
+                    goodOrderItems.add(new GoodsOrderItemDto(goodEntity.getName(), goodEntity.getPrice(), goodEntity.getUnit(), orderEntity.getGoodNum()));
+                }
+            });
+            goodOrderDtos.add(new GoodOrderDto(key, goodOrderItems));
         });
 
         return goodOrderDtos;
