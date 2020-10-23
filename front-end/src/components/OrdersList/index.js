@@ -17,11 +17,20 @@ class OrdersList extends Component {
     });
   }
 
+  deleteOrder = (orderId) => {
+    axios.delete("http://localhost:8080/orders", {orderId}).then(res => {
+      const orders = res.data;
+      this.setState({
+        orders
+      });
+    });
+  }
+
   render() {
     return (
       this.state.orders.map((order) => (
         <table class="table table-striped">
-          <caption>订单号： {order.orderId}</caption>
+          <caption>订单号： {order.orderId}  <button onClick={() => this.deleteOrder(order.orderId)}>删除</button></caption>
           <thead>
             <tr>
               <th>#</th>
