@@ -1,6 +1,5 @@
 package com.twuc.shopping.service;
 
-import com.twuc.shopping.dto.GoodDto;
 import com.twuc.shopping.dto.GoodOrderDto;
 import com.twuc.shopping.dto.OrderDto;
 import com.twuc.shopping.entity.GoodEntity;
@@ -20,19 +19,18 @@ public class OrderService {
     @Resource
     GoodRepository goodRepository;
 
-    private OrderEntity orderDtoToOrderEntity(OrderDto orderDto) {
-        return OrderEntity
-                .builder()
-                .goodId(orderDto.getGoodId())
-                .build();
-    }
-
-    private OrderDto orderEntityToGoodDto(OrderEntity orderEntity) {
-        return new OrderDto(orderEntity.getGoodId());
+    private List<OrderEntity> orderDtoToOrderEntity(OrderDto orderDto) {
+        List<OrderEntity> orderEntities = new ArrayList<>();
+        orderDto.getGoodsBuyDtos().forEach(goodsBuyDto -> orderEntities.add(OrderEntity.builder()
+                .goodId(goodsBuyDto.getGoodsId())
+                .goodNum(goodsBuyDto.getGoodsNum())
+                .build()
+        ));
+        return orderEntities;
     }
 
     public void addOrder(OrderDto orderDto) {
-        orderRepository.save(orderDtoToOrderEntity(orderDto));
+        orderDtoToOrderEntity(orderDto).forEach(orderEntity -> orderRepository.save(orderEntity));
     }
 
     public List<GoodOrderDto> getOrders() {

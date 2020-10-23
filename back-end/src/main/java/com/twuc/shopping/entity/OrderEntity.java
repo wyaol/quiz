@@ -23,4 +23,5 @@ public class OrderEntity {
     private Integer id;
 
     private Integer goodId;
+    private Integer goodNum;
 }

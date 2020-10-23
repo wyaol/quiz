@@ -19,9 +19,8 @@ public class OrderController {
     OrderService orderService;
 
     @PostMapping("/orders")
-    public ResponseEntity addOrder(HttpServletRequest request) {
-        String goodId = request.getParameter("goodId");
-        orderService.addOrder(new OrderDto(Integer.valueOf(goodId)));
+    public ResponseEntity addOrder(OrderDto orderDto) {
+        orderService.addOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).header("Accept", "application/x-www-form-urlencode").build();
     }
 
