@@ -19,26 +19,35 @@ class OrdersList extends Component {
 
   render() {
     return (
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>名字</th>
-            <th>单价</th>
-            <th>数量</th>
-            <th>单位</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.orders.map((order) => (
+      this.state.orders.map((order) => (
+        <table class="table table-striped">
+          <caption>订单号： {order.orderId}</caption>
+          <thead>
             <tr>
-              <td>{order.name}</td>
-              <td>{order.price}</td>
-              <td>{order.num}</td>
-              <td>{order.unit}</td>
+              <th>#</th>
+              <th>名字</th>
+              <th>数量</th>
+              <th>单价</th>
+              <th>单位</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {order.goodsList.map((goods, index) => (
+              <tr>
+                <td>{index+1}</td>
+                <td>{goods.name}</td>
+                <td>{goods.num}</td>
+                <td>{goods.price}</td>
+                <td>{goods.unit}</td>
+              </tr>
+            ))}
+            <tr>
+              <td colSpan={2}>总价</td>
+              <td colSpan={2}>{order.goodsList.reduce((sum, goods) => {return sum + goods.price}, 0)}</td>
+            </tr>
+          </tbody>
+        </table>
+      ))
     )
   }
 }
